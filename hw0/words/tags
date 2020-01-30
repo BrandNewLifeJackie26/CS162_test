@@ -1,0 +1,31 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+.DEFAULT_GOAL	Makefile	/^.DEFAULT_GOAL := default$/;"	m
+BINARIES	Makefile	/^BINARIES=words$/;"	m
+CC	Makefile	/^CC?=gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS?=-Wall$/;"	m
+LIBRARIES	Makefile	/^LIBRARIES=wc_sort.o$/;"	m
+MAX_WORD_LEN	main.c	39;"	d	file:
+SOURCES	Makefile	/^SOURCES=main.c word_count.c$/;"	m
+WordCount	word_count.h	/^typedef struct word_count WordCount;$/;"	t	typeref:struct:word_count
+add_word	word_count.c	/^void add_word(WordCount **wclist, char *word) {$/;"	f
+count	word_count.h	/^    int count;$/;"	m	struct:word_count
+count_words	main.c	/^void count_words(WordCount **wclist, FILE *infile) {$/;"	f
+display_help	main.c	/^static int display_help(void) {$/;"	f	file:
+find_word	word_count.c	/^WordCount *find_word(WordCount *wchead, char *word) {$/;"	f
+fprint_words	word_count.c	/^void fprint_words(WordCount *wchead, FILE *ofile) {$/;"	f
+init_words	word_count.c	/^void init_words(WordCount **wclist) {$/;"	f
+len_words	word_count.c	/^size_t len_words(WordCount *wchead) {$/;"	f
+main	main.c	/^int main (int argc, char *argv[]) {$/;"	f
+new_string	word_count.c	/^char *new_string(char *str) {$/;"	f
+next	word_count.h	/^    struct word_count *next;$/;"	m	struct:word_count	typeref:struct:word_count::word_count
+num_words	main.c	/^int num_words(FILE* infile) {$/;"	f
+word	word_count.h	/^    char *word;$/;"	m	struct:word_count
+word_count	word_count.h	/^struct word_count {$/;"	s
+word_count_h	word_count.h	29;"	d
+word_counts	main.c	/^WordCount *word_counts = NULL;$/;"	v
+wordcount_less	main.c	/^static bool wordcount_less(const WordCount *wc1, const WordCount *wc2) {$/;"	f	file:

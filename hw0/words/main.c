@@ -46,6 +46,20 @@ WordCount *word_counts = NULL;
  */
 int num_words(FILE* infile) {
   int num_words = 0;
+  bool in_word = false;
+  char c = fgetc(infile);
+
+  while (c != EOF) {
+    if (!isalpha(c)) {
+    // Not an alpha -> not in a word
+      in_word = false;
+    } else if (!in_word) {
+    // Is an alpha but the previous is non-alpha -> in a word
+      in_word = true;
+      num_words++;
+    }
+    c = fgetc(infile);
+  }
 
   return num_words;
 }
@@ -57,6 +71,40 @@ int num_words(FILE* infile) {
  * Useful functions: fgetc(), isalpha(), tolower(), add_word().
  */
 void count_words(WordCount **wclist, FILE *infile) {
+
+  // List pointer is NULL
+  if (!wclist) {
+    return;
+  }
+
+  char c = fgetc(infile);
+  char word[MAX_WORD_LEN];
+  bool in_word = false;
+  int cur_len = 0;
+
+  // Read words
+  while (c != EOF) {
+    if (in_word && !isalpha(c)) {
+      // End of a word
+      word[cur_len] = '\0';
+      cur_len = 0;
+      in_word = false;
+
+      add_word(wclist, word);
+    } else if (isalpha(c) && cur_len < MAX_WORD_LEN - 1) {
+      // Start of a word
+      word[cur_len++] = tolower(c);
+      in_word = true;
+    }
+    c = fgetc(infile);
+  }
+
+  // Last word
+  if (in_word && c == EOF) {
+      word[cur_len] = '\0';
+      add_word(wclist, word);
+  }
+
 }
 
 /*
@@ -64,6 +112,9 @@ void count_words(WordCount **wclist, FILE *infile) {
  * Useful function: strcmp().
  */
 static bool wordcount_less(const WordCount *wc1, const WordCount *wc2) {
+  if (wc1->count < wc2->count) {
+    return 1;
+  }
   return 0;
 }
 
@@ -131,6 +182,25 @@ int main (int argc, char *argv[]) {
     // At least one file specified. Useful functions: fopen(), fclose().
     // The first file can be found at argv[optind]. The last file can be
     // found at argv[argc-1].
+    for (int i = optind; i <= argc - 1; i++) {
+      infile = fopen(argv[i], "r");
+      // Check if fopen is executed correctly
+      if (!infile) {
+        printf("Error when reading file %s! \n", argv[i]);
+        return 0;
+      }
+      total_words += num_words(infile);
+      fclose(infile);
+
+      infile = fopen(argv[i], "r");
+      // Check if fopen is executed correctly
+      if (!infile) {
+        printf("Error when reading file %s! \n", argv[i]);
+        return 0;
+      }      
+      count_words(&word_counts, infile);  // !!!infile should close and open again
+      fclose(infile);
+    }
   }
 
   if (count_mode) {

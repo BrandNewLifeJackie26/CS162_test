@@ -41,11 +41,32 @@ size_t len_words(WordCount *wchead) {
 WordCount *find_word(WordCount *wchead, char *word) {
   /* Return count for word, if it exists */
   WordCount *wc = NULL;
+
+  while (wchead) {
+    if (strcmp(wchead->word, word) == 0) {
+      wc = wchead;
+      break;
+    }
+    wchead = wchead->next;
+  }
   return wc;
 }
 
 void add_word(WordCount **wclist, char *word) {
   /* If word is present in word_counts list, increment the count, otw insert with count 1. */
+  WordCount *wc = find_word(*wclist, word);
+
+  if (!wc) {
+    // not present, so insert word
+    WordCount *temp = malloc(sizeof(WordCount));
+    temp->count = 1;
+    temp->word = new_string(word);
+    temp->next = *wclist;
+    *wclist = temp;
+  } else {
+    // present, so increment count
+    wc->count++;
+  }
 }
 
 void fprint_words(WordCount *wchead, FILE *ofile) {
